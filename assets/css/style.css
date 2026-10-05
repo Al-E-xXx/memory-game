@@ -229,6 +229,7 @@ a {
 
 .card__face {
   position: absolute;
+  overflow: hidden;
   inset: 0;
   display: flex;
   align-items: center;
@@ -245,7 +246,7 @@ a {
 }
 
 .card__face--front {
-  background-color: var(--card-front);
+  background-color: var(--card-back);
   transform: rotateY(180deg);
 }
 
