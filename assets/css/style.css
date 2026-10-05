@@ -1,0 +1,146 @@
+/*--- Fonts ---*/
+/* Inter Regular */
+@font-face {
+  font-family: "Inter";
+  src: url("./../fonts/Inter-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter SemiBold */
+@font-face {
+  font-family: "Inter";
+  src: url("./../fonts/Inter-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter SemiBold Italic */
+@font-face {
+  font-family: "Inter";
+  src: url("./../fonts/Inter-SemiBoldItalic.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Inter Bold */
+@font-face {
+  font-family: "Inter";
+  src: url("./../fonts/Inter-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/*--- Animations ---*/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/*--- Reset ---*/
+* {
+  /*--- Disable outline light on touchscreen devices ---*/
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+
+  /*--- Disable select text and image ---*/
+  -moz-user-select: none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  /*--- Reset Styles ---*/
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  /*--- Scrollbar for all ---*/
+  scrollbar-width: thin; /* thin | auto | none */
+  scrollbar-color: rgba(120, 120, 120, 0.4) transparent;
+}
+
+/*--- Scrollbar for all ---*/
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 120, 120, 0.4);
+  border-radius: 6px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(120, 120, 120, 0.6);
+}
+
+/*--- Vars ---*/
+:root {
+  --bg-color: #050a14;
+  --border-color: #35e0ff;
+  --text-color: #eaf6ff;
+  --muted: #8fb3cc;
+  --card-back: #0b1d33;
+  --match: #46e08c;
+}
+
+/*--- Common ---*/
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  position: relative;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  min-height: 100vh;
+
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-color);
+
+  background-color: var(--bg-color);
+}
+
+body.modal-no-scroll {
+  overflow: hidden;
+  padding-right: var(--modal-scrollbar-width, 0px);
+}
+
+a {
+  text-decoration: none;
+}
+
+/*--- Media ---*/
+@media (hover: hover) {
+  /*--- ---*/
+}
+
+@media (max-width: 500px) {
+  /*--- ---*/
+}

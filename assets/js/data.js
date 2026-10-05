@@ -1,0 +1,18 @@
+export const DATA = [
+  { id: 0, pairId: 3, image: "4.webp", status: "closed" },
+  { id: 1, pairId: 7, image: "8.webp", status: "closed" },
+  { id: 2, pairId: 1, image: "2.webp", status: "closed" },
+  { id: 3, pairId: 5, image: "6.webp", status: "closed" },
+  { id: 4, pairId: 0, image: "1.webp", status: "closed" },
+  { id: 5, pairId: 6, image: "7.webp", status: "closed" },
+  { id: 6, pairId: 2, image: "3.webp", status: "closed" },
+  { id: 7, pairId: 4, image: "5.webp", status: "closed" },
+  { id: 8, pairId: 7, image: "8.webp", status: "closed" },
+  { id: 9, pairId: 3, image: "4.webp", status: "closed" },
+  { id: 10, pairId: 5, image: "6.webp", status: "closed" },
+  { id: 11, pairId: 1, image: "2.webp", status: "closed" },
+  { id: 12, pairId: 4, image: "5.webp", status: "closed" },
+  { id: 13, pairId: 0, image: "1.webp", status: "closed" },
+  { id: 14, pairId: 6, image: "7.webp", status: "closed" },
+  { id: 15, pairId: 2, image: "3.webp", status: "closed" },
+];
