@@ -1,5 +1,8 @@
 import { buildElement } from "./utils.js";
 import { CONFIG } from "./config.js";
+import { getCards } from "./state.js";
+
+let onCardClick = null;
 
 const dom = {
   root: null,
@@ -53,6 +56,67 @@ function buildLayout() {
   document.body.prepend(root);
 }
 
-export function initView() {
+function createCardElement(card) {
+  const cardEl = buildElement("button", ["card", `card--${card.status}`], {
+    type: "button",
+    "data-id": String(card.id),
+  });
+
+  const inner = buildElement("span", ["card__inner"], {}, "", cardEl);
+
+  const front = buildElement(
+    "span",
+    ["card__face", "card__face--front"],
+    {},
+    "",
+    inner,
+  );
+  buildElement("img", ["card__image"], { alt: "" }, "", front);
+
+  buildElement("span", ["card__face", "card__face--back"], {}, "", inner);
+
+  return cardEl;
+}
+
+function handleBoardClick(event) {
+  const cardEl = event.target.closest(".card");
+  if (!cardEl) return;
+
+  const id = Number(cardEl.dataset.id);
+  onCardClick(id);
+}
+
+export function renderBoard() {
+  dom.board.replaceChildren();
+
+  const cards = getCards();
+  const fragment = document.createDocumentFragment();
+
+  cards.forEach((card) => {
+    fragment.append(createCardElement(card));
+  });
+
+  dom.board.append(fragment);
+}
+
+export function initView(handlers) {
+  onCardClick = handlers.onCardClick;
   buildLayout();
+  dom.board.addEventListener("click", handleBoardClick);
+}
+
+export function updateCard(card) {
+  const cardEl = dom.board.querySelector(`.card[data-id="${card.id}"]`);
+  if (!cardEl) return;
+
+  cardEl.classList.remove("card--closed", "card--opened", "card--matched");
+  cardEl.classList.add(`card--${card.status}`);
+
+  const img = cardEl.querySelector(".card__image");
+
+  if (card.status === "closed") {
+    img.removeAttribute("src");
+  } else {
+    img.src = card.image;
+  }
 }
