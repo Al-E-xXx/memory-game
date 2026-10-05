@@ -1,3 +1,124 @@
+import { CONFIG } from "./config.js";
+import { createDeck } from "./deck.js";
+import {
+  setCards,
+  getCardById,
+  updateCard,
+  addOpenedCardId,
+  getOpenedCardIds,
+  clearOpenedCardIds,
+  incrementMoves,
+  incrementMatchedPairs,
+  getMatchedPairs,
+  setLocked,
+  setGameStatus,
+  getGameStatus,
+  getStateSnapshot,
+  getTimeoutId,
+  setTimeoutId,
+  clearTimeoutId,
+} from "./state.js";
+import { canOpenCard, isMatch, isWin } from "./gameLogic.js";
+import { initView, renderBoard, updateCardView } from "./view.js";
+
+// Init
+
 export function init() {
-  console.log("Init");
+  clearPendingTimeout();
+  setGameStatus("idle");
+  setLocked(false);
+  clearOpenedCardIds();
+
+  initView({ onCardClick: handleCardClick });
+  setCards(createDeck());
+  renderBoard();
+}
+
+// Click
+function handleCardClick(id) {
+  const card = getCardById(id);
+  if (!canOpenCard(card, getStateSnapshot())) return;
+
+  if (getGameStatus() === "idle") setGameStatus("playing");
+
+  openCard(card);
+
+  const openedIds = getOpenedCardIds();
+  if (openedIds.length === 1) {
+    handleFirstCard(card);
+  } else if (openedIds.length === 2) {
+    handleSecondCard();
+  }
+}
+
+// Open/Close
+function openCard(card) {
+  updateCard(card.id, { status: "opened" });
+  updateCardView(card);
+  addOpenedCardId(card.id);
+}
+
+function closeCard(card) {
+  updateCard(card.id, { status: "closed" });
+  updateCardView(card);
+}
+
+// Turn sequence
+function handleFirstCard(card) {
+  //
+}
+
+function handleSecondCard() {
+  incrementMoves();
+  setLocked(true);
+
+  const [idA, idB] = getOpenedCardIds();
+  const cardA = getCardById(idA);
+  const cardB = getCardById(idB);
+
+  if (isMatch(cardA, cardB)) {
+    handleMatch(cardA, cardB);
+  } else {
+    handleMismatch(cardA, cardB);
+  }
+}
+
+function handleMatch(cardA, cardB) {
+  updateCard(cardA.id, { status: "matched" });
+  updateCard(cardB.id, { status: "matched" });
+  updateCardView(cardA);
+  updateCardView(cardB);
+
+  clearOpenedCardIds();
+  incrementMatchedPairs();
+  setLocked(false);
+
+  checkWin();
+}
+
+function handleMismatch(cardA, cardB) {
+  const id = setTimeout(() => {
+    closeCard(cardA);
+    closeCard(cardB);
+    clearOpenedCardIds();
+    setLocked(false);
+    clearTimeoutId();
+  }, CONFIG.mismatchDelay);
+
+  setTimeoutId(id);
+}
+
+function checkWin() {
+  if (isWin(getMatchedPairs(), CONFIG.totalPairs)) {
+    setGameStatus("won");
+    // popup win!!!
+  }
+}
+
+function clearPendingTimeout() {
+  const id = getTimeoutId();
+  if (id !== null) {
+    clearTimeout(id);
+    clearTimeoutId();
+  }
 }

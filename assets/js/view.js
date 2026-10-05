@@ -105,7 +105,7 @@ export function initView(handlers) {
   dom.board.addEventListener("click", handleBoardClick);
 }
 
-export function updateCard(card) {
+export function updateCardView(card) {
   const cardEl = dom.board.querySelector(`.card[data-id="${card.id}"]`);
   if (!cardEl) return;
 

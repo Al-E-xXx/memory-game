@@ -106,3 +106,10 @@ export function resetState() {
   state.isLocked = false;
   state.gameStatus = "idle";
 }
+
+export function getStateSnapshot() {
+  return {
+    isLocked: state.isLocked,
+    gameStatus: state.gameStatus,
+  };
+}
