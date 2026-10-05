@@ -117,6 +117,7 @@ body {
 
   width: 100%;
   min-height: 100vh;
+  padding: 20px;
 
   font-family: Inter;
   font-size: 16px;
@@ -136,9 +137,75 @@ a {
   text-decoration: none;
 }
 
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  max-width: 660px;
+}
+
+.game__header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+
+  width: 100%;
+  padding: 10px 22px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+}
+
+.game__controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 6px 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0);
+  color: var(--border-color);
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.game__stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px 22px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+}
+
+.game__board {
+  height: calc(100vh - 220px);
+  aspect-ratio: 1 / 1;
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+}
+
 /*--- Media ---*/
 @media (hover: hover) {
-  /*--- ---*/
+  button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 }
 
 @media (max-width: 500px) {

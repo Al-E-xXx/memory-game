@@ -50,7 +50,7 @@ function buildLayout() {
   dom.newGameBtn = newGameBtn;
   dom.leadersBtn = leadersBtn;
 
-  document.body.append(root);
+  document.body.prepend(root);
 }
 
 export function initView() {
