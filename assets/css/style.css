@@ -261,6 +261,52 @@ a {
   transform: rotateY(180deg);
 }
 
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  max-width: 660px;
+  width: 90%;
+
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background-color: var(--bg-color);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal__content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal__title {
+  color: var(--text-color);
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.modal__text {
+  margin: 0;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.modal__actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 /*--- Media ---*/
 @media (hover: hover) {
   .button:hover {

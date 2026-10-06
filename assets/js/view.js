@@ -3,6 +3,7 @@ import { CONFIG } from "./config.js";
 import { getCards, getMoves, getMatchedPairs } from "./state.js";
 
 let onCardClick = null;
+let onRestart = null;
 
 const dom = {
   root: null,
@@ -11,6 +12,10 @@ const dom = {
   board: null,
   newGameBtn: null,
   leadersBtn: null,
+  modal: null,
+  modalTitle: null,
+  modalText: null,
+  modalActions: null,
 };
 
 function buildButton(text, modifier) {
@@ -45,6 +50,19 @@ function buildLayout() {
   // Board
   const board = buildElement("div", ["game__board"], {}, "", root);
 
+  // Modal
+  const modal = buildElement("dialog", ["modal"], { id: "modal" }, "", root);
+  const modalContent = buildElement("div", ["modal__content"], {}, "", modal);
+  const modalTitle = buildElement("h2", ["modal__title"], {}, "", modalContent);
+  const modalText = buildElement("p", ["modal__text"], {}, "", modalContent);
+  const modalActions = buildElement(
+    "div",
+    ["modal__actions"],
+    {},
+    "",
+    modalContent,
+  );
+
   // Save refs
   dom.root = root;
   dom.movesValue = movesStat.valueEl;
@@ -52,6 +70,10 @@ function buildLayout() {
   dom.board = board;
   dom.newGameBtn = newGameBtn;
   dom.leadersBtn = leadersBtn;
+  dom.modal = modal;
+  dom.modalTitle = modalTitle;
+  dom.modalText = modalText;
+  dom.modalActions = modalActions;
 
   document.body.prepend(root);
 }
@@ -86,6 +108,18 @@ function handleBoardClick(event) {
   onCardClick(id);
 }
 
+function clearModal() {
+  dom.modalTitle.textContent = "";
+  dom.modalText.textContent = "";
+  dom.modalActions.replaceChildren();
+}
+
+function handleModalBackdropClick(event) {
+  if (event.target === dom.modal) {
+    closeModal();
+  }
+}
+
 export function renderBoard() {
   dom.board.replaceChildren();
 
@@ -101,8 +135,11 @@ export function renderBoard() {
 
 export function initView(handlers) {
   onCardClick = handlers.onCardClick;
+  onRestart = handlers.onRestart;
   buildLayout();
   dom.board.addEventListener("click", handleBoardClick);
+  dom.newGameBtn.addEventListener("click", onRestart);
+  dom.modal.addEventListener("click", handleModalBackdropClick);
 }
 
 export function updateCardView(card) {
@@ -124,4 +161,32 @@ export function updateCardView(card) {
 export function updateStats() {
   dom.movesValue.textContent = String(getMoves());
   dom.pairsValue.textContent = `${getMatchedPairs()} из ${CONFIG.totalPairs}`;
+}
+
+export function openModal() {
+  dom.modal.showModal();
+}
+
+export function closeModal() {
+  dom.modal.close();
+}
+
+export function showWinModal() {
+  clearModal();
+
+  dom.modalTitle.textContent = "You win!";
+  dom.modalText.textContent = `You found all pairs in ${getMoves()} moves.`;
+
+  const restartBtn = buildButton("New game", "primary");
+  restartBtn.addEventListener("click", () => {
+    closeModal();
+    onRestart();
+  });
+
+  const closeBtn = buildButton("Close", "secondary");
+  closeBtn.addEventListener("click", closeModal);
+
+  dom.modalActions.append(restartBtn, closeBtn);
+
+  openModal();
 }

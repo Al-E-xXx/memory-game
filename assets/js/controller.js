@@ -2,6 +2,7 @@ import { CONFIG } from "./config.js";
 import { createDeck } from "./deck.js";
 import {
   setCards,
+  resetState,
   getCardById,
   updateCard,
   addOpenedCardId,
@@ -19,7 +20,13 @@ import {
   clearTimeoutId,
 } from "./state.js";
 import { canOpenCard, isMatch, isWin } from "./gameLogic.js";
-import { initView, renderBoard, updateCardView, updateStats } from "./view.js";
+import {
+  initView,
+  renderBoard,
+  updateCardView,
+  updateStats,
+  showWinModal,
+} from "./view.js";
 
 // Init
 
@@ -29,7 +36,7 @@ export function init() {
   setLocked(false);
   clearOpenedCardIds();
 
-  initView({ onCardClick: handleCardClick });
+  initView({ onCardClick: handleCardClick, onRestart: restartGame });
   setCards(createDeck());
   renderBoard();
   updateStats();
@@ -114,7 +121,7 @@ function handleMismatch(cardA, cardB) {
 function checkWin() {
   if (isWin(getMatchedPairs(), CONFIG.totalPairs)) {
     setGameStatus("won");
-    // popup win!!!
+    showWinModal();
   }
 }
 
@@ -124,4 +131,13 @@ function clearPendingTimeout() {
     clearTimeout(id);
     clearTimeoutId();
   }
+}
+
+function restartGame() {
+  clearPendingTimeout();
+  resetState();
+  setCards(createDeck());
+  renderBoard();
+  updateStats();
+  setGameStatus("idle");
 }
