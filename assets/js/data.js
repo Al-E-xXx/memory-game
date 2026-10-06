@@ -1,0 +1,18 @@
+export const DATA = [
+  { id: 0, pairId: 3, image: "./assets/img/4.webp", status: "closed" },
+  { id: 1, pairId: 7, image: "./assets/img/8.webp", status: "closed" },
+  { id: 2, pairId: 1, image: "./assets/img/2.webp", status: "closed" },
+  { id: 3, pairId: 5, image: "./assets/img/6.webp", status: "closed" },
+  { id: 4, pairId: 0, image: "./assets/img/1.webp", status: "closed" },
+  { id: 5, pairId: 6, image: "./assets/img/7.webp", status: "closed" },
+  { id: 6, pairId: 2, image: "./assets/img/3.webp", status: "closed" },
+  { id: 7, pairId: 4, image: "./assets/img/5.webp", status: "closed" },
+  { id: 8, pairId: 7, image: "./assets/img/8.webp", status: "closed" },
+  { id: 9, pairId: 3, image: "./assets/img/4.webp", status: "closed" },
+  { id: 10, pairId: 5, image: "./assets/img/6.webp", status: "closed" },
+  { id: 11, pairId: 1, image: "./assets/img/2.webp", status: "closed" },
+  { id: 12, pairId: 4, image: "./assets/img/5.webp", status: "closed" },
+  { id: 13, pairId: 0, image: "./assets/img/1.webp", status: "closed" },
+  { id: 14, pairId: 6, image: "./assets/img/7.webp", status: "closed" },
+  { id: 15, pairId: 2, image: "./assets/img/3.webp", status: "closed" },
+];
