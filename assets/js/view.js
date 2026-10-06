@@ -1,9 +1,10 @@
-import { buildElement } from "./utils.js";
+import { buildElement, formatDate } from "./utils.js";
 import { CONFIG } from "./config.js";
 import { getCards, getMoves, getMatchedPairs } from "./state.js";
 
 let onCardClick = null;
 let onRestart = null;
+let onLeaders = null;
 
 const dom = {
   root: null,
@@ -15,6 +16,7 @@ const dom = {
   modal: null,
   modalTitle: null,
   modalText: null,
+  modalBody: null,
   modalActions: null,
 };
 
@@ -55,6 +57,7 @@ function buildLayout() {
   const modalContent = buildElement("div", ["modal__content"], {}, "", modal);
   const modalTitle = buildElement("h2", ["modal__title"], {}, "", modalContent);
   const modalText = buildElement("p", ["modal__text"], {}, "", modalContent);
+  const modalBody = buildElement("div", ["modal__body"], {}, "", modalContent);
   const modalActions = buildElement(
     "div",
     ["modal__actions"],
@@ -73,6 +76,7 @@ function buildLayout() {
   dom.modal = modal;
   dom.modalTitle = modalTitle;
   dom.modalText = modalText;
+  dom.modalBody = modalBody;
   dom.modalActions = modalActions;
 
   document.body.prepend(root);
@@ -111,6 +115,7 @@ function handleBoardClick(event) {
 function clearModal() {
   dom.modalTitle.textContent = "";
   dom.modalText.textContent = "";
+  dom.modalBody.replaceChildren();
   dom.modalActions.replaceChildren();
 }
 
@@ -118,6 +123,25 @@ function handleModalBackdropClick(event) {
   if (event.target === dom.modal) {
     closeModal();
   }
+}
+
+function buildLeadersTable(leaders) {
+  const table = buildElement("table", ["leaders"]);
+  const thead = buildElement("thead", [], {}, "", table);
+  const headRow = buildElement("tr", [], {}, "", thead);
+  buildElement("th", [], {}, "#", headRow);
+  buildElement("th", [], {}, "Moves", headRow);
+  buildElement("th", [], {}, "Date", headRow);
+
+  const tbody = buildElement("tbody", [], {}, "", table);
+  leaders.forEach((leader, index) => {
+    const row = buildElement("tr", [], {}, "", tbody);
+    buildElement("td", [], {}, String(index + 1), row);
+    buildElement("td", [], {}, String(leader.moves), row);
+    buildElement("td", [], {}, formatDate(leader.date), row);
+  });
+
+  return table;
 }
 
 export function renderBoard() {
@@ -136,9 +160,11 @@ export function renderBoard() {
 export function initView(handlers) {
   onCardClick = handlers.onCardClick;
   onRestart = handlers.onRestart;
+  onLeaders = handlers.onLeaders;
   buildLayout();
   dom.board.addEventListener("click", handleBoardClick);
   dom.newGameBtn.addEventListener("click", onRestart);
+  dom.leadersBtn.addEventListener("click", onLeaders);
   dom.modal.addEventListener("click", handleModalBackdropClick);
 }
 
@@ -187,6 +213,24 @@ export function showWinModal() {
   closeBtn.addEventListener("click", closeModal);
 
   dom.modalActions.append(restartBtn, closeBtn);
+
+  openModal();
+}
+
+export function showLeadersModal(leaders) {
+  clearModal();
+
+  dom.modalTitle.textContent = "Leaders";
+
+  if (leaders.length === 0) {
+    dom.modalText.textContent = "No results yet";
+  } else {
+    dom.modalBody.append(buildLeadersTable(leaders));
+  }
+
+  const closeBtn = buildButton("Close", "secondary");
+  closeBtn.addEventListener("click", closeModal);
+  dom.modalActions.append(closeBtn);
 
   openModal();
 }

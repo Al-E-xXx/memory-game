@@ -307,6 +307,30 @@ a {
   margin-top: 20px;
 }
 
+.modal__body {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.leaders {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: var(--text-color);
+}
+
+.leaders th,
+.leaders td {
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.leaders th {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
 /*--- Media ---*/
 @media (hover: hover) {
   .button:hover {

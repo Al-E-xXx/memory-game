@@ -11,6 +11,7 @@ import {
   incrementMoves,
   incrementMatchedPairs,
   getMatchedPairs,
+  getMoves,
   setLocked,
   setGameStatus,
   getGameStatus,
@@ -26,17 +27,22 @@ import {
   updateCardView,
   updateStats,
   showWinModal,
+  showLeadersModal,
 } from "./view.js";
+import { loadLeaders, saveLeader } from "./storage.js";
 
 // Init
-
 export function init() {
   clearPendingTimeout();
   setGameStatus("idle");
   setLocked(false);
   clearOpenedCardIds();
 
-  initView({ onCardClick: handleCardClick, onRestart: restartGame });
+  initView({
+    onCardClick: handleCardClick,
+    onRestart: restartGame,
+    onLeaders: handleLeadersClick,
+  });
   setCards(createDeck());
   renderBoard();
   updateStats();
@@ -120,6 +126,12 @@ function handleMismatch(cardA, cardB) {
 
 function checkWin() {
   if (isWin(getMatchedPairs(), CONFIG.totalPairs)) {
+    if (getGameStatus() !== "won") {
+      saveLeader({
+        moves: getMoves(),
+        date: new Date().toISOString(),
+      });
+    }
     setGameStatus("won");
     showWinModal();
   }
@@ -140,4 +152,8 @@ function restartGame() {
   renderBoard();
   updateStats();
   setGameStatus("idle");
+}
+
+function handleLeadersClick() {
+  showLeadersModal(loadLeaders());
 }
