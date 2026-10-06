@@ -1,6 +1,6 @@
 import { buildElement } from "./utils.js";
 import { CONFIG } from "./config.js";
-import { getCards } from "./state.js";
+import { getCards, getMoves, getMatchedPairs } from "./state.js";
 
 let onCardClick = null;
 
@@ -119,4 +119,9 @@ export function updateCardView(card) {
   } else {
     img.src = card.image;
   }
+}
+
+export function updateStats() {
+  dom.movesValue.textContent = String(getMoves());
+  dom.pairsValue.textContent = `${getMatchedPairs()} из ${CONFIG.totalPairs}`;
 }

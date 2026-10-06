@@ -19,7 +19,7 @@ import {
   clearTimeoutId,
 } from "./state.js";
 import { canOpenCard, isMatch, isWin } from "./gameLogic.js";
-import { initView, renderBoard, updateCardView } from "./view.js";
+import { initView, renderBoard, updateCardView, updateStats } from "./view.js";
 
 // Init
 
@@ -32,6 +32,7 @@ export function init() {
   initView({ onCardClick: handleCardClick });
   setCards(createDeck());
   renderBoard();
+  updateStats();
 }
 
 // Click
@@ -70,6 +71,7 @@ function handleFirstCard(card) {
 
 function handleSecondCard() {
   incrementMoves();
+  updateStats();
   setLocked(true);
 
   const [idA, idB] = getOpenedCardIds();
@@ -91,6 +93,7 @@ function handleMatch(cardA, cardB) {
 
   clearOpenedCardIds();
   incrementMatchedPairs();
+  updateStats();
   setLocked(false);
 
   checkWin();
