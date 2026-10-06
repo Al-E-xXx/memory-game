@@ -242,7 +242,11 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--card-back);
+  background-color: var(--card-back);
+  background-image: url(./../img/card-bg.webp);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 50%;
 }
 
 .card__face--front {
